@@ -14,6 +14,32 @@
     
     <title>Biuu</title>
     
+    <!-- 验证检查 - 防止直接访问 -->
+    <script>
+        (function() {
+            // 检查验证状态（支持 Cookie 和 localStorage）
+            function checkVerificationStatus() {
+                // 先检查 Cookie
+                const cookies = document.cookie.split(';');
+                for (let cookie of cookies) {
+                    const [name, value] = cookie.trim().split('=');
+                    if (name === 'activation_verified' && value === '1') {
+                        return true;
+                    }
+                }
+                // 再检查 localStorage（用于本地文件打开）
+                if (localStorage.getItem('activation_verified') === '1') {
+                    return true;
+                }
+                return false;
+            }
+            
+            // 未验证则跳转到首页
+            if (!checkVerificationStatus()) {
+                window.location.href = '../index.html';
+            }
+        })();
+    </script>
     <style>
         /* --- 全局重置 --- */
         :root {
